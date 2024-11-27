@@ -1,0 +1,116 @@
+/* entreneur Container */
+.entreneur {
+    display: grid;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, auto);
+    
+    grid-template-areas:
+    ".    .    .     .    ."
+    "RW   .    ST    .    LW"
+    ".    CM3  CM2   CM1  ."
+    "RB   CB2  .     CB1  LB"
+    ".    .    GK    .    .";
+
+    justify-items: center;
+    align-items: center;
+  }
+  
+  /* General styling for players */
+  .player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    width: 80px;
+    height: 120px;
+   
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    
+  }
+  
+  /* Specific positions */
+  .GK {
+    grid-area: GK;
+  }
+  
+  .CB1 {
+    grid-area: CB1;
+  }
+  
+  .CB2 {
+    grid-area: CB2;
+  }
+  
+  .LB {
+    grid-area: LB;
+  }
+  
+  .RB {
+    grid-area: RB;
+  }
+  
+  .CM1 {
+    grid-area: CM1;
+  }
+  
+  .CM2 {
+    grid-area: CM2;
+  }
+  
+  .CM3 {
+    grid-area: CM3;
+  }
+  
+  .LW {
+    grid-area: LW;
+  }
+  
+  .RW {
+    grid-area: RW;
+  }
+  
+  .ST {
+    grid-area: ST;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .entreneur {
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-areas:
+      ".    .    .     .    ."
+      "RW   .    ST    .    LW"
+      ".    CM3  CM2   CM1  ."
+      "RB   CB2  .     CB1  LB"
+      ".    .    GK    .    .";
+    }
+    .player {
+        width: 80px;
+        height: 120px;
+      font-size: 0.8rem;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .entreneur {
+        grid-template-columns: repeat(5, 1fr);
+      grid-template-areas:
+      ".    .    .     .    ."
+      "RW   .    ST    .    LW"
+      ".    CM3  CM2   CM1  ."
+      "RB   CB2  .     CB1  LB"
+      ".    .    GK    .    .";
+    }
+    .player {
+      width: 50px;
+      height: 70px;
+      font-size: 0.7rem;
+    }
+  }
+  
