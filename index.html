@@ -116,9 +116,11 @@
       <!-- terain -->
       <div class="mb-14 grid lg:[grid-area:1_/_1_/_2_/_3] place-content-center">
         <div
-          class="entreneur bg-[url('/Champions-Web-App-Ultimate-Team/assest/terain.png')] w-[44vh] h-[30vh]  bg-cover bg-top bg-no-repeat sm:w-[88vh] max-h-screen sm:h-[60vh] sm:max-h-screen md:w[100vh] md:h-[72vh]  md:max-h-screen lg:bg-top lg:max-h-screen ease-out duration-1000  ">
+          class="entreneur bg-[url('/Champions-Web-App-Ultimate-Team/assest/terain.png')] w-[44vh] h-[30vh] bg-cover bg-no-repeat sm:w-[88vh] max-h-screen sm:h-[60vh] sm:max-h-screen md:w[100vh] md:h-[72vh] md:max-h-screen lg:bg-top lg:max-h-screen ease-out duration-1000">
           <div
-            class="player ST bg-[url('/Champions-Web-App-Ultimate-Team/assest/download.webp')] bg-no-repeat bg-cover bg-center"></div>
+            class="player ST bg-[url('/Champions-Web-App-Ultimate-Team/assest/download.webp')] bg-no-repeat bg-cover bg-center">
+            <p>ST</p>
+          </div>
           <div
             class="player LW bg-[url('/Champions-Web-App-Ultimate-Team/assest/download.webp')] bg-no-repeat bg-cover bg-center">
             <p>LW</p>
@@ -165,109 +167,120 @@
       <!-- substitutes -->
 
       <div
+        id="sub"
         class="lg:[grid-area:2_/_1_/_3_/_4] pl-9 pr-9 flex flex-wrap justify-center items-start">
-        <div
-          class="substitutesSQ  bg-[url('/Champions-Web-App-Ultimate-Team/assest/BADGE/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-[35vh] max-h-full">
+        <div class="substitutesSQ hidden">
           <div
-            class="grid place-content-center grid-cols-[1fr] grid-rows-[repeat(3,_1fr)] gap-x-[5px] gap-y-[5px] mt-[-5px]">
+            class="bg-[url('/Champions-Web-App-Ultimate-Team/assest/BADGE/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-[35vh] max-h-full">
             <div
-              class="[grid-area:1_/_1_/_3_/_2] flex items-center justify-around">
-              <img
-                src=""
-                alt=""
-                class="photoPlayers w-[20vh] pt-[70px] relative" />
-              <div class="flex flex-col items-center absolute pr-40 pl-2">
-                <p class="rating text-4xl font-bold"></p>
-                <p class="position font-semibold text-2xl mt-[-8px]"></p>
-              </div>
-              <img src="" alt="" class="photoNation absolute pr-32 pt-36" />
-              <img src="" alt="" class="photoClub absolute pt-36 pl-[125px]" />
-            </div>
-
-            <div
-              class="[grid-area:3_/_1_/_4_/_2] flex flex-col items-center justify-between">
-              <div>
-                <p class="name text-xl font-bold"></p>
-              </div>
+              class="grid place-content-center grid-cols-[1fr] grid-rows-[repeat(3,_1fr)] gap-x-[5px] gap-y-[5px] mt-[-5px]">
               <div
-                class="flex items-center justify-between gap-[10px] pb-[40px] pl-3 pr-3">
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">PAC</p>
-                  <p class="pace font-bold text-[19px]"></p>
+                class="[grid-area:1_/_1_/_3_/_2] flex items-center justify-around">
+                <img
+                  src=""
+                  alt=""
+                  class="photoPlayers w-[20vh] pt-[70px] relative" />
+                <div class="flex flex-col items-center absolute pr-40 pl-2">
+                  <p class="rating text-4xl font-bold"></p>
+                  <p class="position font-semibold text-2xl mt-[-8px]"></p>
                 </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">SHO</p>
-                  <p class="shooting font-bold text-[19px]"></p>
+                <img src="" alt="" class="photoNation absolute pr-32 pt-36" />
+                <img
+                  src=""
+                  alt=""
+                  class="photoClub absolute pt-36 pl-[125px]" />
+              </div>
+
+              <div
+                class="[grid-area:3_/_1_/_4_/_2] flex flex-col items-center justify-between">
+                <div>
+                  <p class="name text-xl font-bold"></p>
                 </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">PAS</p>
-                  <p class="passing font-bold text-[19px]"></p>
-                </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">DRI</p>
-                  <p class="dribbling font-bold text-[19px]"></p>
-                </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">DEF</p>
-                  <p class="defending font-bold text-[19px]"></p>
-                </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">PHY</p>
-                  <p class="physical font-bold text-[19px]"></p>
+                <div
+                  class="flex items-center justify-between gap-[10px] pb-[40px] pl-3 pr-3">
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">PAC</p>
+                    <p class="pace font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">SHO</p>
+                    <p class="shooting font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">PAS</p>
+                    <p class="passing font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">DRI</p>
+                    <p class="dribbling font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">DEF</p>
+                    <p class="defending font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">PHY</p>
+                    <p class="physical font-bold text-[19px]"></p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div
-          class="substitutesGK  bg-[url('/Champions-Web-App-Ultimate-Team/assest/BADGE/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-[35vh] max-h-full">
+        <div class="substitutesGK hidden">
           <div
-            class="grid place-content-center grid-cols-[1fr] grid-rows-[repeat(3,_1fr)] gap-x-[5px] gap-y-[5px] mt-[-5px]">
+            class="bg-[url('/Champions-Web-App-Ultimate-Team/assest/BADGE/badge_gold.webp')] bg-center bg-no-repeat bg-cover w-[35vh] max-h-full">
             <div
-              class="[grid-area:1_/_1_/_3_/_2] flex items-center justify-around">
-              <img
-                src=""
-                alt=""
-                class="photoPlayers w-[20vh] pt-[70px] relative" />
-              <div class="flex flex-col items-center absolute pr-40 pl-2">
-                <p class="rating text-4xl font-bold"></p>
-                <p class="position font-semibold text-2xl mt-[-8px]"></p>
-              </div>
-              <img src="" alt="" class="photoNation absolute pr-32 pt-36" />
-              <img src="" alt="" class="photoClub absolute pt-36 pl-[125px]" />
-            </div>
-
-            <div
-              class="[grid-area:3_/_1_/_4_/_2] flex flex-col items-center justify-between">
-              <div>
-                <p class="name text-xl font-bold"></p>
-              </div>
+              class="grid place-content-center grid-cols-[1fr] grid-rows-[repeat(3,_1fr)] gap-x-[5px] gap-y-[5px] mt-[-5px]">
               <div
-                class="flex items-center justify-between gap-[10px] pb-[40px] pl-3 pr-3">
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">DIV</p>
-                  <p class="diving font-bold text-[19px]"></p>
+                class="[grid-area:1_/_1_/_3_/_2] flex items-center justify-around">
+                <img
+                  src=""
+                  alt=""
+                  class="photoPlayers w-[20vh] pt-[70px] relative" />
+                <div class="flex flex-col items-center absolute pr-40 pl-2">
+                  <p class="rating text-4xl font-bold"></p>
+                  <p class="position font-semibold text-2xl mt-[-8px]"></p>
                 </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">HAN</p>
-                  <p class="handling font-bold text-[19px]"></p>
+                <img src="" alt="" class="photoNation absolute pr-32 pt-36" />
+                <img
+                  src=""
+                  alt=""
+                  class="photoClub absolute pt-36 pl-[125px]" />
+              </div>
+
+              <div
+                class="[grid-area:3_/_1_/_4_/_2] flex flex-col items-center justify-between">
+                <div>
+                  <p class="name text-xl font-bold"></p>
                 </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">KIC</p>
-                  <p class="kicking font-bold text-[19px]"></p>
-                </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">REF</p>
-                  <p class="reflexes font-bold text-[19px]"></p>
-                </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">SPD</p>
-                  <p class="speed font-bold text-[19px]"></p>
-                </div>
-                <div class="flex flex-col items-center leading-4">
-                  <p class="font-semibold text-[12px]">POS</p>
-                  <p class="positioning font-bold text-[19px]"></p>
+                <div
+                  class="flex items-center justify-between gap-[10px] pb-[40px] pl-3 pr-3">
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">DIV</p>
+                    <p class="diving font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">HAN</p>
+                    <p class="handling font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">KIC</p>
+                    <p class="kicking font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">REF</p>
+                    <p class="reflexes font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">SPD</p>
+                    <p class="speed font-bold text-[19px]"></p>
+                  </div>
+                  <div class="flex flex-col items-center leading-4">
+                    <p class="font-semibold text-[12px]">POS</p>
+                    <p class="positioning font-bold text-[19px]"></p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -304,7 +317,6 @@
                     for="profilePhoto"
                     class="flex items-center justify-center mt-2 w-28 h-28 border border-green-300 rounded-full overflow-hidden cursor-pointer">
                     <img
-                    
                       src=""
                       alt=""
                       class="object-cover w-full h-full hidden"
@@ -438,7 +450,11 @@
                   <label class="block text-sm font-medium text-green-300"
                     >Rating</label
                   >
-                  <p id="rating" class="ratings w-full text-black font-bold bg-green-300 rounded-md p-3 text-center">--</p>
+                  <p
+                    id="rating"
+                    class="ratings w-full text-black font-bold bg-green-300 rounded-md p-3 text-center">
+                    --
+                  </p>
                 </div>
                 <!-- GK -->
                 <div
