@@ -118,7 +118,7 @@
         <div
           class="entreneur bg-[url('/Champions-Web-App-Ultimate-Team/assest/terain.png')] w-[44vh] h-[30vh] bg-cover bg-no-repeat sm:w-[88vh] max-h-screen sm:h-[60vh] sm:max-h-screen md:w[100vh] md:h-[72vh] md:max-h-screen lg:bg-top lg:max-h-screen ease-out duration-1000">
           <div
-            class="player ST bg-[url('/Champions-Web-App-Ultimate-Team/assest/download.webp')] bg-no-repeat bg-cover bg-center">
+            class="player ST bg-[url('/Champions-Web-App-Ultimate-Team/assest/download.webp')] bg-no-repeat bg-cover bg-center ">
             <p>ST</p>
           </div>
           <div
@@ -459,7 +459,7 @@
                 <!-- GK -->
                 <div
                   id="extraAttributesGK"
-                  class="hidden extraAttributesGK grid grid-cols-2">
+                  class="hidden extraAttributesGK grid grid-cols-2 cursor-pointer">
                   <label
                     class="diving block text-sm font-medium text-green-300 mb-2"
                     >Diving</label
@@ -520,7 +520,7 @@
 
                 <div
                   id="extraAttributesSQ"
-                  class="hidden extraAttributesSQ grid grid-cols-2">
+                  class="hidden extraAttributesSQ grid grid-cols-2 cursor-pointer">
                   <label
                     class="pace block text-sm font-medium text-green-300 mb-2"
                     >Pace</label
@@ -585,8 +585,24 @@
                 id="addPlayerButton"
                 type="button"
                 onclick="validateAndCalculateRating()"
-                class="bg-green-700 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-500">
+                class="bg-green-700 text-white px-6 py-2 rounded-2xl shadow-md hover:bg-green-500">
                 Add Player
+              </button>
+
+              <button
+                id="upload"
+                type="button"
+                onclick="validateAndCalculateRating()"
+                class="hidden bg-yellow-700 text-white px-6 py-2 rounded-2xl shadow-md hover:bg-yellow-500">
+                Upload Player
+              </button>
+
+              <button
+                id="delete"
+                type="button"
+                onclick="validateAndCalculateRating()"
+                class="hidden bg-red-700 text-white px-6 py-2 rounded-2xl shadow-md hover:bg-red-500">
+                Delete Player
               </button>
             </div>
           </form>
@@ -596,5 +612,6 @@
 
     <script src="/Champions-Web-App-Ultimate-Team/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="path/to/your/script.js"></script>
   </body>
 </html>
