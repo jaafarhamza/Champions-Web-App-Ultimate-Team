@@ -144,6 +144,20 @@ let gkCount = 0;
 const maxPlayers = 25;
 const maxGKs = 3;
 
+// Convert file to base64
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      resolve(null);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+}
+
 function addPlayerToSubstitutes() {
   // Validate form and calculate rating
   if (!validateAndCalculateRating()) return;
@@ -198,93 +212,104 @@ function addPlayerToSubstitutes() {
   totalPlayers++;
   if (position === 'GK') gkCount++;
 
-  let player = {
-    name,
-    position,
-    rating,
-    nationality,
-    club,
-    nationalityFile,
-    clubFile,
-    photoFile,
-    diving,
-    handling,
-    kicking,
-    reflexes,
-    speed,
-    positioning,
-    pace,
-    shooting,
-    passing,
-    dribbling,
-    defending,
-    physical,
-  };
+  Promise.all([
+    fileToBase64(nationalityFile),
+    fileToBase64(clubFile),
+    fileToBase64(photoFile),
+  ])
+    .then(([nationalityFile, clubFile, photoFile]) => {
+      let player = {
+        name,
+        position,
+        rating,
+        nationality,
+        club,
+        photoFile: photoFile || null,
+        nationalityFile: nationalityFile || null,
+        clubFile: clubFile || null,
+        diving,
+        handling,
+        kicking,
+        reflexes,
+        speed,
+        positioning,
+        pace,
+        shooting,
+        passing,
+        dribbling,
+        defending,
+        physical,
+      };
+      let players = JSON.parse(localStorage.getItem('players')) || [];
+      players.push(player);
+      localStorage.setItem('players', JSON.stringify(players));
 
-  let players = JSON.parse(localStorage.getItem('players')) || [];
-  players.push(player);
-  localStorage.setItem('players', JSON.stringify(players));
+      // substitute card ----------------------------------------------------------------
 
-  // position section--------------------------------------------------
+      const targetSection =
+        player.position === 'GK'
+          ? document.querySelector('.substitutesGK')
+          : document.querySelector('.substitutesSQ');
 
-  const targetSection =
-    position === 'GK'
-      ? document.querySelector('.substitutesGK')
-      : document.querySelector('.substitutesSQ');
-  targetSection.classList.remove('hidden');
+      // position section--------------------------------------------------
 
-  const newSubstitute = targetSection.cloneNode(true);
-  newSubstitute.removeAttribute('id');
-  newSubstitute.querySelectorAll('*').forEach((el) => el.removeAttribute('id'));
+      let newSubstitute = targetSection.cloneNode(true);
+      newSubstitute.removeAttribute('id');
+      newSubstitute.classList.add('cursor-pointer');
+      newSubstitute
+        .querySelectorAll('*')
+        .forEach((el) => el.removeAttribute('id'));
+      newSubstitute.classList.remove('hidden');
 
-  // substitute card ----------------------------------------------------------------
-  const substitute = (selector, value) => {
-    const element = newSubstitute.querySelector(selector);
-    if (element) element.textContent = value;
-  };
+      const substitute = (selector, value) => {
+        const element = newSubstitute.querySelector(selector);
+        if (element) element.textContent = value;
+      };
 
-  const setImage = (selector, file) => {
-    const image = newSubstitute.querySelector(selector);
-    if (file && image) {
-      image.src = URL.createObjectURL(file);
-    }
-  };
-  substitute('.name', name);
-  substitute('.position', position);
-  substitute('.rating', rating);
-  substitute('.nationality', nationality);
-  substitute('.club', club);
+      const setImage = (selector, src) => {
+        const image = newSubstitute.querySelector(selector);
+        if (src && image) {
+          image.src = src;
+          image.classList.remove('hidden');
+        }
+      };
 
-  if (position === 'GK') {
-    substitute('.diving', diving);
-    substitute('.handling', handling);
-    substitute('.kicking', kicking);
-    substitute('.reflexes', reflexes);
-    substitute('.speed', speed);
-    substitute('.positioning', positioning);
-  } else {
-    substitute('.pace', pace);
-    substitute('.shooting', shooting);
-    substitute('.passing', passing);
-    substitute('.dribbling', dribbling);
-    substitute('.defending', defending);
-    substitute('.physical', physical);
-  }
+      targetSection.parentElement.appendChild(newSubstitute);
 
-  setImage('.photoPlayers', photoFile);
-  setImage('.photoNation', nationalityFile);
-  setImage('.photoClub', clubFile);
+      substitute('.name', name);
+      substitute('.position', position);
+      substitute('.rating', rating);
+      substitute('.nationality', nationality);
+      substitute('.club', club);
 
-  // substitute attributes-----------------------------------------------------------
-  const attributes = position === 'GK' ? GKelement : SQelement;
-  attributes.forEach((attr) => {
-    substitute(`.${attr}`, document.getElementById(attr).value.trim() || 'N/A');
-  });
+      if (position === 'GK') {
+        substitute('.diving', diving);
+        substitute('.handling', handling);
+        substitute('.kicking', kicking);
+        substitute('.reflexes', reflexes);
+        substitute('.speed', speed);
+        substitute('.positioning', positioning);
+      } else {
+        substitute('.pace', pace);
+        substitute('.shooting', shooting);
+        substitute('.passing', passing);
+        substitute('.dribbling', dribbling);
+        substitute('.defending', defending);
+        substitute('.physical', physical);
+      }
+      setImage('.photoPlayers', photoFile);
+      setImage('.photoNation', nationalityBase64);
+      setImage('.photoClub', clubBase64);
 
-  const newSubstitutePlace = document.getElementById('sub');
-  newSubstitutePlace.appendChild(newSubstitute);
-  
-  targetSection.classList.add('hidden');
+      // substitute attributes-----------------------------------------------------------
+      const attributes = position === 'GK' ? GKelement : SQelement;
+      attributes.forEach((attr) => {
+        substitute(
+          `.${attr}`,
+          document.getElementById(attr).value.trim() || 'N/A'
+        );
+      });
+    });
 
   // Show success message-------------------------------------------------
   Swal.fire({
@@ -295,6 +320,7 @@ function addPlayerToSubstitutes() {
     showConfirmButton: false,
     timer: 1500,
   });
+
   // Clear form------------------------------------------------------------
   clearForm();
 }
@@ -321,7 +347,7 @@ function clearForm() {
 }
 
 window.onload = function () {
-  const newSubstitutePlace = document.getElementById('sub');
+  let substitutePlace = document.getElementById('sub');
   const storedSubstitutes = JSON.parse(localStorage.getItem('players')) || [];
 
   storedSubstitutes.forEach((player) => {
@@ -375,6 +401,6 @@ window.onload = function () {
     setImage('.photoNation', player.nationalityFile);
     setImage('.photoClub', player.clubFile);
 
-    newSubstitutePlace.appendChild(newSubstitute);
+    substitutePlace.appendChild(newSubstitute);
   });
 };
