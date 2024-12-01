@@ -216,100 +216,93 @@ function addPlayerToSubstitutes() {
     fileToBase64(nationalityFile),
     fileToBase64(clubFile),
     fileToBase64(photoFile),
-  ])
-    .then(([nationalityFile, clubFile, photoFile]) => {
-      let player = {
-        name,
-        position,
-        rating,
-        nationality,
-        club,
-        photoFile: photoFile || null,
-        nationalityFile: nationalityFile || null,
-        clubFile: clubFile || null,
-        diving,
-        handling,
-        kicking,
-        reflexes,
-        speed,
-        positioning,
-        pace,
-        shooting,
-        passing,
-        dribbling,
-        defending,
-        physical,
-      };
-      let players = JSON.parse(localStorage.getItem('players')) || [];
-      players.push(player);
-      localStorage.setItem('players', JSON.stringify(players));
+  ]).then(([nationalityFile, clubFile, photoFile]) => {
+    let player = {
+      name,
+      position,
+      rating,
+      nationality,
+      club,
+      photoFile: photoFile || null,
+      nationalityFile: nationalityFile || null,
+      clubFile: clubFile || null,
+      diving,
+      handling,
+      kicking,
+      reflexes,
+      speed,
+      positioning,
+      pace,
+      shooting,
+      passing,
+      dribbling,
+      defending,
+      physical,
+    };
+    let players = JSON.parse(localStorage.getItem('players')) || [];
+    players.push(player);
+    localStorage.setItem('players', JSON.stringify(players));
 
-      // substitute card ----------------------------------------------------------------
+    // substitute card ----------------------------------------------------------------
 
-      const targetSection =
-        player.position === 'GK'
-          ? document.querySelector('.substitutesGK')
-          : document.querySelector('.substitutesSQ');
+    const targetSection =
+      position === 'GK'
+        ? document.querySelector('.substitutesGK')
+        : document.querySelector('.substitutesSQ');
 
-      // position section--------------------------------------------------
+    // position section--------------------------------------------------
 
-      let newSubstitute = targetSection.cloneNode(true);
-      newSubstitute.removeAttribute('id');
-      newSubstitute.classList.add('cursor-pointer');
-      newSubstitute
-        .querySelectorAll('*')
-        .forEach((el) => el.removeAttribute('id'));
-      newSubstitute.classList.remove('hidden');
+    let newSubstitute = targetSection.cloneNode(true);
+    newSubstitute.removeAttribute('id');
+    newSubstitute.classList.add('cursor-pointer');
+    newSubstitute
+      .querySelectorAll('*')
+      .forEach((el) => el.removeAttribute('id'));
+    newSubstitute.classList.remove('hidden');
+    newSubstitute.classList.add('substitute');
 
-      const substitute = (selector, value) => {
-        const element = newSubstitute.querySelector(selector);
-        if (element) element.textContent = value;
-      };
+    const substitute = (selector, value) => {
+      const element = newSubstitute.querySelector(selector);
+      if (element) element.textContent = value;
+    };
 
-      const setImage = (selector, src) => {
-        const image = newSubstitute.querySelector(selector);
-        if (src && image) {
-          image.src = src;
-          image.classList.remove('hidden');
-        }
-      };
-
-      targetSection.parentElement.appendChild(newSubstitute);
-
-      substitute('.name', name);
-      substitute('.position', position);
-      substitute('.rating', rating);
-      substitute('.nationality', nationality);
-      substitute('.club', club);
-
-      if (position === 'GK') {
-        substitute('.diving', diving);
-        substitute('.handling', handling);
-        substitute('.kicking', kicking);
-        substitute('.reflexes', reflexes);
-        substitute('.speed', speed);
-        substitute('.positioning', positioning);
-      } else {
-        substitute('.pace', pace);
-        substitute('.shooting', shooting);
-        substitute('.passing', passing);
-        substitute('.dribbling', dribbling);
-        substitute('.defending', defending);
-        substitute('.physical', physical);
+    const setImage = (selector, src) => {
+      const image = newSubstitute.querySelector(selector);
+      if (src && image) {
+        image.src = src;
+        image.classList.remove('hidden');
       }
-      setImage('.photoPlayers', photoFile);
-      setImage('.photoNation', nationalityBase64);
-      setImage('.photoClub', clubBase64);
+    };
 
-      // substitute attributes-----------------------------------------------------------
-      const attributes = position === 'GK' ? GKelement : SQelement;
-      attributes.forEach((attr) => {
-        substitute(
-          `.${attr}`,
-          document.getElementById(attr).value.trim() || 'N/A'
-        );
-      });
-    });
+    targetSection.parentElement.appendChild(newSubstitute);
+
+    substitute('.name', name);
+    substitute('.position', position);
+    substitute('.rating', rating);
+    substitute('.nationality', nationality);
+    substitute('.club', club);
+
+    if (position === 'GK') {
+      substitute('.diving', diving);
+      substitute('.handling', handling);
+      substitute('.kicking', kicking);
+      substitute('.reflexes', reflexes);
+      substitute('.speed', speed);
+      substitute('.positioning', positioning);
+    } else {
+      substitute('.pace', pace);
+      substitute('.shooting', shooting);
+      substitute('.passing', passing);
+      substitute('.dribbling', dribbling);
+      substitute('.defending', defending);
+      substitute('.physical', physical);
+    }
+    setImage('.photoPlayers', photoFile);
+    setImage('.photoNation', nationalityFile);
+    setImage('.photoClub', clubFile);
+
+    // substitute attributes-----------------------------------------------------------
+  });
 
   // Show success message-------------------------------------------------
   Swal.fire({
@@ -361,6 +354,8 @@ window.onload = function () {
     const newSubstitute = targetTemplate.cloneNode(true);
     newSubstitute.classList.remove('hidden');
     newSubstitute.removeAttribute('id');
+    newSubstitute.classList.add('cursor-pointer');
+    newSubstitute.classList.add('substitute');
 
     const substitute = (selector, value) => {
       const element = newSubstitute.querySelector(selector);
@@ -404,3 +399,117 @@ window.onload = function () {
     substitutePlace.appendChild(newSubstitute);
   });
 };
+
+// SHOW data in the form------------------------------------------------
+document.getElementById('sub').addEventListener('click', (event) => {
+  const clickolayer = event.target.closest('.substitute');
+  if (!clickolayer) return;
+
+  const hideSubtitues = Array.from(clickolayer.parentNode.children).filter(
+    (child) => !child.classList.contains('hidden')
+  );
+
+  const index = hideSubtitues.indexOf(clickolayer);
+
+  const players = JSON.parse(localStorage.getItem('players')) || [];
+  const player = players[index];
+  if (!player) return;
+
+  document.getElementById('name').value = player.name;
+  document.getElementById('position').value = player.position;
+  document.getElementById('nationality').value = player.nationality;
+  document.getElementById('club').value = player.club;
+  document.getElementById('rating').textContent = player.rating;
+
+  if (player.photoFile) {
+    document.getElementById('profilePlayer').src = player.photoFile;
+    document.getElementById('profilePlayer').classList.remove('hidden');
+    document.getElementById('TextPlayerPhoto').classList.add('hidden');
+  }
+  if (player.nationalityFile) {
+    document.getElementById('profileFlag').src = player.nationalityFile;
+    document.getElementById('profileFlag').classList.remove('hidden');
+    document.getElementById('TextFlag').classList.add('hidden');
+  }
+  if (player.clubFile) {
+    document.getElementById('profileLogo').src = player.clubFile;
+    document.getElementById('profileLogo').classList.remove('hidden');
+    document.getElementById('TextLogo').classList.add('hidden');
+  }
+
+  const attributes = player.position === 'GK' ? GKelement : SQelement;
+  attributes.forEach((attr) => {
+    document.getElementById(attr).value = player[attr];
+    document.getElementById(attr).parentElement.classList.remove('hidden');
+  });
+
+  document.getElementById('addPlayerButton').classList.add('hidden');
+  document.getElementById('update').classList.remove('hidden');
+  document.getElementById('delete').classList.remove('hidden');
+  document.getElementById('cancel').classList.remove('hidden');
+
+  document.getElementById('playerForm').dataset.index = index;
+});
+
+// hide button
+function hideButton() {
+  document.getElementById('addPlayerButton').classList.remove('hidden');
+  document.getElementById('update').classList.add('hidden');
+  document.getElementById('delete').classList.add('hidden');
+  document.getElementById('cancel').classList.add('hidden');
+  // hide the attribute value in the form
+  GKelement.forEach((attr) => {
+    document.getElementById(attr).parentElement.classList.add('hidden');
+  });
+  SQelement.forEach((attr) => {
+    document.getElementById(attr).parentElement.classList.add('hidden');
+  });
+}
+
+// cancel button------------------------------------------------
+document.getElementById('cancel').addEventListener('click', () => {
+  clearForm();
+  hideButton();
+});
+
+// delete button------------------------------------------------
+document.getElementById('delete').addEventListener('click', () => {
+  const index = document.getElementById('playerForm').dataset.index;
+  const players = JSON.parse(localStorage.getItem('players')) || [];
+  players.splice(index, 1);
+  localStorage.setItem('players', JSON.stringify(players));
+  window.location.reload();
+});
+
+// modifier players------------------------------------------------
+document.getElementById('update').addEventListener('click', () => {
+  if (!validateAndCalculateRating()) return;
+
+  const index = document.getElementById('playerForm').dataset.index;
+  const players = JSON.parse(localStorage.getItem('players')) || [];
+  const player = players[index];
+  player.name = document.getElementById('name').value;
+  player.position = document.getElementById('position').value;
+  player.rating = document.getElementById('rating').textContent.trim();
+  player.nationality = document.getElementById('nationality').value;
+  player.club = document.getElementById('club').value;
+  player.photoFile = document.getElementById('profilePlayer').src;
+  player.nationalityFile = document.getElementById('profileFlag').src;
+  player.clubFile = document.getElementById('profileLogo').src;
+  player.diving = document.getElementById('diving').value;
+  player.handling = document.getElementById('handling').value;
+  player.kicking = document.getElementById('kicking').value;
+  player.reflexes = document.getElementById('reflexes').value;
+  player.speed = document.getElementById('speed').value;
+  player.positioning = document.getElementById('positioning').value;
+  player.pace = document.getElementById('pace').value;
+  player.shooting = document.getElementById('shooting').value;
+  player.passing = document.getElementById('passing').value;
+  player.dribbling = document.getElementById('dribbling').value;
+  player.defending = document.getElementById('defending').value;
+  player.physical = document.getElementById('physical').value;
+
+  localStorage.setItem('players', JSON.stringify(players));
+  window.location.reload();
+  
+});
