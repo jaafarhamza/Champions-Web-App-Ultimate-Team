@@ -316,6 +316,7 @@ function addPlayerToSubstitutes() {
 
   // Clear form------------------------------------------------------------
   clearForm();
+  
 }
 document
   .getElementById('addPlayerButton')
@@ -511,5 +512,111 @@ document.getElementById('update').addEventListener('click', () => {
 
   localStorage.setItem('players', JSON.stringify(players));
   window.location.reload();
-  
 });
+
+// Popup
+const playerElements = document.querySelectorAll('.player');
+const popup = document.getElementById('popup');
+const popupContent = document.getElementById('popupContent');
+const closePopupButton = document.getElementById('closePopup');
+const substitutesContainer = document.getElementById('sub'); // Div with substitutes
+
+// Show the popup
+function showPopup() {
+  popup.classList.remove('hidden');
+}
+
+// Hide the popup
+function hidePopup() {
+  popup.classList.add('hidden');
+}
+
+// Function to update the terrain
+function updateTerrain(position, substitute) {
+  const terrainPositionDiv = document.querySelector(`.${position}`);
+  const playerName = substitute.querySelector('.name').textContent; 
+  const playerImage = substitute.querySelector('.photoPlayers').src;
+  // Update the terrain div
+  const imgElement = terrainPositionDiv.querySelector('img');
+  const nameElement = terrainPositionDiv.querySelector(`.nom${position}`); 
+
+  imgElement.src = playerImage; 
+  nameElement.textContent = playerName; 
+
+  terrainPositionDiv.querySelector('span').classList.add('hidden'); 
+  terrainPositionDiv.style.backgroundImage = 'none'; 
+
+  // Save to local storage
+  const playerData = {
+    name: playerName,
+    image: playerImage
+  };
+  localStorage.setItem(position, JSON.stringify(playerData)); 
+
+  hidePopup();
+}
+
+playerElements.forEach((player) => {
+  player.addEventListener('click', () => {
+    Array.from(popupContent.children).forEach((child) => {
+      if (child.id !== 'closePopup') {
+        popupContent.removeChild(child);
+      }
+    });
+
+    // Add the player to the popup
+    if (player.classList.contains('GK')) {
+      const GKsubstitutes = document.querySelectorAll('.substitutesGK');
+      GKsubstitutes.forEach((substitute) => {
+        const clone = substitute.cloneNode(true); 
+        popupContent.appendChild(clone);
+
+        clone.addEventListener('click', () => {
+          updateTerrain('GK', clone);
+        });
+      });
+    }else {
+      
+      const positions = ['ST', 'LW', 'RW', 'CM3', 'CM2', 'CM1', 'CB1', 'CB2', 'LB', 'RB',]; 
+      positions.forEach((pos) => {
+        if (player.classList.contains(pos)) {
+          const substitutes = document.querySelectorAll('.substitutesSQ');
+          substitutes.forEach((substitute) => {
+            const clone = substitute.cloneNode(true); 
+            popupContent.appendChild(clone);
+
+            // Add click event to each substitute
+            clone.addEventListener('click', () => {
+              updateTerrain(pos, clone);
+            });
+          });
+        }
+      });
+    }
+
+    // Show the popup
+    showPopup();
+  });
+});
+
+closePopupButton.addEventListener('click', hidePopup);
+
+function loadTerrainFromLocalStorage() {
+  const positions = ['GK', 'ST', 'LW', 'RW', 'CM3', 'CM2', 'CM1', 'CB1', 'CB2', 'LB', 'RB',]; 
+
+  positions.forEach(position => {
+    const playerData = JSON.parse(localStorage.getItem(position)); 
+    if (playerData) {
+      const terrainPositionDiv = document.querySelector(`.${position}`);
+      const imgElement = terrainPositionDiv.querySelector('img');
+      const nameElement = terrainPositionDiv.querySelector(`.nom${position}`);
+
+      imgElement.src = playerData.image; 
+      nameElement.textContent = playerData.name; 
+      nameElement.classList.remove('hidden'); 
+      terrainPositionDiv.style.backgroundImage = 'none'; 
+      terrainPositionDiv.querySelector('span').classList.add('hidden');
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', loadTerrainFromLocalStorage);
